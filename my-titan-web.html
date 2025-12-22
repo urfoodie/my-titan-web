@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+  <html lang="zh-CN">
+    <head>
+      <meta charset="UTF-8">
+      <title>
+        泰坦科技 · 仪器耗材通讯录（完整手风琴版）
+      </title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <style>
+        :root {
+            --theme: #0057c3;
+            --bg: #f5f7fa;
+            --card: #ffffff;
+            --text: #333;
+            --muted: #777;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+        header {
+            background: var(--theme);
+            color: #fff;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header h1 {
+            font-size: 1.25rem;
+            margin: 0;
+        }
+        main {
+            max-width: 960px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .card {
+            background: var(--card);
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .fold-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            user-select: none;
+        }
+        .fold-header h2 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--theme);
+        }
+        .arrow {
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid var(--theme);
+            transition: transform .3s;
+        }
+        .fold-header.active .arrow {
+            transform: rotate(180deg);
+        }
+        .fold-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .35s ease;
+        }
+        .fold-content.show {
+            max-height: 500px;
+        }
+        .inner {
+            padding: 0 1.5rem 1.5rem;
+        }
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .tag {
+            background: #eef4ff;
+            color: var(--theme);
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        .contact {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .contact img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #dfe7ff;
+        }
+        .info .name {
+            font-weight: 600;
+        }
+        .info .meta {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+        .actions {
+            margin-left: auto;
+            display: flex;
+            gap: 0.75rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: var(--theme);
+            color: #fff;
+        }
+        .btn-outline {
+            border: 1px solid var(--theme);
+            color: var(--theme);
+        }
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+        @media (max-width: 600px) {
+            .contact {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .actions {
+                margin-left: 0;
+            }
+        }
+      </style>
+    </head>
+    <body>
+      <header>
+        <h1>
+          泰坦科技 · 仪器耗材通讯录
+        </h1>
+      </header>
+      <main>
+        <!-- 分类卡片（始终展开） -->
+          <section class="card">
+            <div class="fold-header" style="cursor: default;">
+              <h2>
+                通讯录
+              </h2>
+            </div>
+            <div class="fold-content show">
+              <div class="inner">
+                <div class="tags">
+                  <span class="tag">
+                    综合类或其他类
+                  </span>
+                  <span class="tag">
+                    实验室仪器
+                  </span>
+                  <span class="tag">
+                    常规耗材
+                  </span>
+                  <span class="tag">
+                    安防耗材
+                  </span>
+                  <span class="tag">
+                    生物耗材
+                  </span>
+                  <span class="tag">
+                    分析耗材
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- 联系人 1  金盛 -->
+            <section class="card">
+              <div class="fold-header active" onclick="accordeon(this)">
+                <h2>
+                  分析耗材
+                </h2>
+                <span class="arrow">
+                </span>
+              </div>
+              <div class="fold-content show">
+                <div class="inner">
+                  <div class="contact">
+                    <img src="https://via.placeholder.com/100x100/0057c3/ffffff?text=金" alt="金盛">
+                    <div class="info">
+                      <div class="name">
+                        金盛
+                      </div>
+                      <div class="meta">
+                        分析耗材
+                      </div>
+                    </div>
+                    <div class="actions">
+                      <a class="btn btn-primary" href="tel:13764168549">
+                        📞 13764168549
+                      </a>
+                      <a class="btn btn-outline" href="mailto:cwf@titansci.com">
+                        ✉ 发邮件
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <!-- 联系人 2  陈梅 -->
+              <section class="card">
+                <div class="fold-header" onclick="accordeon(this)">
+                  <h2>
+                    生物耗材
+                  </h2>
+                  <span class="arrow">
+                  </span>
+                </div>
+                <div class="fold-content">
+                  <div class="inner">
+                    <div class="contact">
+                      <img src="https://via.placeholder.com/100x100/0057c3/ffffff?text=陈" alt="陈梅">
+                      <div class="info">
+                        <div class="name">
+                          陈梅
+                        </div>
+                        <div class="meta">
+                          生物耗材
+                        </div>
+                      </div>
+                      <div class="actions">
+                        <a class="btn btn-primary" href="tel:13816389531">
+                          📞 13816389531
+                        </a>
+                        <a class="btn btn-outline" href="mailto:cm@titansci.com">
+                          ✉ 发邮件
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <!-- 联系人 3  邵闻超 -->
+                <section class="card">
+                  <div class="fold-header" onclick="accordeon(this)">
+                    <h2>
+                      安防耗材
+                    </h2>
+                    <span class="arrow">
+                    </span>
+                  </div>
+                  <div class="fold-content">
+                    <div class="inner">
+                      <div class="contact">
+                        <img src="https://via.placeholder.com/100x100/0057c3/ffffff?text=邵" alt="邵闻超">
+                        <div class="info">
+                          <div class="name">
+                            邵闻超
+                          </div>
+                          <div class="meta">
+                            安防耗材
+                          </div>
+                        </div>
+                        <div class="actions">
+                          <a class="btn btn-primary" href="tel:18918909972">
+                            📞 18918909972
+                          </a>
+                          <a class="btn btn-outline" href="mailto:swc@titansci.com">
+                            ✉ 发邮件
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <!-- 联系人 4  张小娟 -->
+                  <section class="card">
+                    <div class="fold-header" onclick="accordeon(this)">
+                      <h2>
+                        常规耗材
+                      </h2>
+                      <span class="arrow">
+                      </span>
+                    </div>
+                    <div class="fold-content">
+                      <div class="inner">
+                        <div class="contact">
+                          <img src="https://via.placeholder.com/100x100/0057c3/ffffff?text=张" alt="张小娟">
+                          <div class="info">
+                            <div class="name">
+                              张小娟
+                            </div>
+                            <div class="meta">
+                              常规耗材
+                            </div>
+                          </div>
+                          <div class="actions">
+                            <a class="btn btn-primary" href="tel:18702968915">
+                              📞 18702968915
+                            </a>
+                            <a class="btn btn-outline" href="mailto:zxj@titansci.com">
+                              ✉ 发邮件
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <!-- 联系人 5  实验室仪器 -->
+                    <section class="card">
+                      <div class="fold-header" onclick="accordeon(this)">
+                        <h2>
+                          实验室仪器
+                        </h2>
+                        <span class="arrow">
+                        </span>
+                      </div>
+                      <div class="fold-content">
+                        <div class="inner">
+                          <div class="contact">
+                            <img src="https://via.placeholder.com/100x100/0057c3/ffffff?text=楼" alt="楼兰兰">
+                            <div class="info">
+                              <div class="name">
+                                楼兰兰
+                              </div>
+                              <div class="meta">
+                                实验室仪器
+                              </div>
+                            </div>
+                            <div class="actions">
+                              <a class="btn btn-primary" href="tel:18621890533">
+                                📞 18621890533
+                              </a>
+                              <a class="btn btn-outline" href="mailto:lll@titansci.com">
+                                ✉ 发邮件
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </section>
+                    <!-- 联系人 6  蔡伟凤 -->
+                      <section class="card">
+                        <div class="fold-header" onclick="accordeon(this)">
+                          <h2>
+                            仪器耗材（综合类或其他类）
+                          </h2>
+                          <span class="arrow">
+                          </span>
+                        </div>
+                        <div class="fold-content">
+                          <div class="inner">
+                            <div class="contact">
+                              <img src="https://via.placeholder.com/100x100/0057c3/ffffff?text=蔡" alt="蔡伟凤">
+                              <div class="info">
+                                <div class="name">
+                                  蔡伟凤
+                                </div>
+                                <div class="meta">
+                                  仪器耗材（综合类或其他类）
+                                </div>
+                              </div>
+                              <div class="actions">
+                                <a class="btn btn-primary" href="tel:13816828675">
+                                  📞 13816828675
+                                </a>
+                                <a class="btn btn-outline" href="mailto:cwf@titansci.com">
+                                  ✉ 发邮件
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                    </main>
+                    <footer>
+                      © 2025 泰坦科技 版权所有
+                    </footer>
+                    <script>
+                      /* 手风琴：只保留当前展开，其余收起 */
+    function accordeon(current) {
+        const allHeader = document.querySelectorAll('.fold-header');
+        const allContent = document.querySelectorAll('.fold-content');
+        const targetContent = current.nextElementSibling;
+
+        allHeader.forEach(h => h.classList.remove('active'));
+        allContent.forEach(c => c.classList.remove('show'));
+
+        current.classList.add('active');
+        targetContent.classList.add('show');
+    }
+                    </script>
+                  </body>
+                </html>
